@@ -76,6 +76,7 @@ html {
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(4, 1fr);
     grid-gap: 1rem;
+    outline: none;
   }
   .tile {
     border-radius: 8px;
@@ -84,6 +85,7 @@ html {
     cursor: pointer;
     position: relative;
     perspective: 1000px;
+    outline: none;
     .tile__inner {
       position: relative;
       width: 100%;
@@ -91,6 +93,7 @@ html {
       text-align: center;
       transition: transform 0.8s;
       transform-style: preserve-3d;
+      outline: none;
       .tile__front {
         -webkit-backface-visibility: hidden;
         backface-visibility: hidden;
@@ -104,6 +107,7 @@ html {
         background-position: center;
         background-repeat: no-repeat;
         background-size: contain;
+        outline: none;
       }
       .tile__back {
         -webkit-backface-visibility: hidden;
@@ -115,9 +119,11 @@ html {
         display: flex;
         align-items: center;
         justify-content: center;
+        outline: none;
         img {
           width: 70%;
           height: 70%;
+          outline: none;
         }
       }
     }
