@@ -100,7 +100,7 @@ function populateBoard() {
   document.querySelectorAll(".tile__back").forEach((tile, index) => {
     const img = document.createElement("img");
     const link = memos[table[index]];
-    img.setAttribute("src", `/memos/${link}.png`);
+    img.setAttribute("src", `memos/${link}.png`);
     img.setAttribute("alt", `image`);
     tile.appendChild(img);
   });
