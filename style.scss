@@ -1,0 +1,61 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;1,600&display=swap");
+
+$bg-color: #c5deec;
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+html {
+  font-size: 10px;
+  box-sizing: border-box;
+  font-family: "Open Sans", sans-serif;
+}
+
+.game {
+  width: 100vw;
+  height: 100vh;
+  background-color: $bg-color;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .game__board {
+    width: 600px;
+    height: 600px;
+    background-color: lightblue;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 1rem;
+  }
+  .game__tile {
+    border-radius: 8px;
+    background: #c5deec;
+    box-shadow: 5px 5px 8px #b1c8d4, -5px -5px 8px #d9f4ff;
+    cursor: pointer;
+    position: relative;
+  }
+  .tile__front {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 80%;
+    background: url("question.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .game {
+    .game__board {
+      width: 300px;
+      height: 300px;
+    }
+  }
+}
