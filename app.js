@@ -65,7 +65,8 @@ function checkCount(ids, imgs) {
       document.querySelectorAll(".tile").forEach((tile) => {
         correctImages.forEach((element) => {
           if (element == parseInt(tile.id)) {
-            return;
+            tile.classList.add('matched')
+            // return;
           }
         });
       });
