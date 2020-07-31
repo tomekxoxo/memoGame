@@ -111,7 +111,7 @@ html {
   background-color: lightblue;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 150px);
   grid-gap: 1rem;
   outline: none;
 }
@@ -203,6 +203,7 @@ html {
   .game .game__board {
     width: 300px;
     height: 300px;
+    grid-template-rows: repeat(4, 75px);
   }
   .modal-container .modal {
     -webkit-transition: -webkit-transform 0.4s ease-in-out;
@@ -222,6 +223,7 @@ html {
   .game .game__board {
     width: 250px;
     height: 250px;
+    grid-template-rows: repeat(4, 62.5px);
   }
   .modal-container .modal {
     -webkit-transition: -webkit-transform 0.4s ease-in-out;
@@ -236,5 +238,4 @@ html {
             transform: translate(-50%, -150%);
   }
 }
-
 /*# sourceMappingURL=style.css.map */
