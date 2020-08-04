@@ -5,6 +5,7 @@ let table = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8];
 let compareImg = [];
 let compareId = [];
 let correctImages = [];
+let playerNick = null;
 const memos = {
   1: "bird_green",
   2: "bird_yellow",
@@ -16,6 +17,14 @@ const memos = {
   8: "owl",
 };
 window.addEventListener("load", populateBoard);
+
+const addStats = document.querySelector(".stats");
+
+addStats.addEventListener("click", addScore);
+
+const showStatsOnly = document.querySelector(".show-stats");
+
+showStatsOnly.addEventListener('click', getScores)
 
 const board = document.querySelector(".game__board");
 board.addEventListener("click", rotate);
@@ -66,7 +75,7 @@ function checkCount(ids, imgs) {
       document.querySelectorAll(".tile").forEach((tile) => {
         correctImages.forEach((element) => {
           if (element == parseInt(tile.id)) {
-            tile.classList.add('matched')
+            tile.classList.add("matched");
             // return;
           }
         });
@@ -92,7 +101,7 @@ function checkCount(ids, imgs) {
     compareImg = [];
     compareId = [];
     if (correctImages.length == 16) {
-      showModal()
+      showModal();
     }
   }, 1300);
 }
@@ -108,11 +117,115 @@ function populateBoard() {
   });
 }
 
+function getLocalStorage() {
+  const name = localStorage.getItem("name");
+  return name;
+}
+function addToLocalStorage(input) {
+  localStorage.setItem("name", input);
+}
+
+async function postScore(name) {
+  try {
+    const req = await fetch(
+      `https://memory-game-c467d.firebaseio.com/players.json`,
+      {
+        method: "Post",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nick: name, score: moveCount }),
+      }
+    )
+      .then(response => response.json())
+      .then(data => data);
+    return await  getScores();
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+async function getScores() {
+  try {
+    const req = await fetch(
+      `https://memory-game-c467d.firebaseio.com/players.json`
+    )
+      .then(response => response.json())
+      .then(data => data);
+    const res = await req;
+    showStats(res)
+    addStats.disabled = true;
+    addStats.style.display = "none";
+    showStatsOnly.style.display = "none";
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+function addScore() {
+  if (playerNick != null) {
+    addStats.disabled = true;
+    postScore(playerNick);
+  } else {
+    const input = document.querySelector(".name");
+    if (input.value != "") {
+      addStats.disabled = true;
+      addToLocalStorage(input.value.toUpperCase());
+      postScore(input.value.toUpperCase());
+    } else {
+      input.classList.add("input-warning");
+      input.placeholder = "Type your name...";
+      setTimeout(() => {
+        input.classList.remove("input-warning");
+        input.placeholder = "Your name";
+      }, 1500);
+    }
+  }
+}
+
 function showModal() {
-  document.querySelector('.move-count').innerText = `moves: ${moveCount}`;
-  document.querySelector('.modal-container').classList.add('show');
-  document.querySelector('.replay').addEventListener('click', () => {
-    location.reload()
-  })
+  document.querySelector(".move-count").innerText = `moves: ${moveCount}`;
+  document.querySelector(".modal-container").classList.add("show");
+  const modal = document.querySelector(".modal");
+  if (getLocalStorage() == null) {
+    const input = document.createElement("input");
+    input.className = "name";
+    input.type = "text";
+    input.placeholder = "Your name";
+    modal.insertBefore(input, addStats);
+  } else if (getLocalStorage() != null) {
+    playerNick = getLocalStorage();
+  }
+  document.querySelector(".replay").addEventListener("click", () => {
+    location.reload();
+  });
+}
+
+function showStats(stats) {
+  document.querySelector('.message').style.display = 'none';
+  document.querySelector('.stats').style.display = 'none';
+  document.querySelector('.move-count').style.display = 'none';
+  if (document.querySelector('.name')) {
+    document.querySelector('.name').style.display = 'none';
+  }
+  const tableWrapper = document.createElement('div');
+  tableWrapper.className = 'table-wrapper'
+  const tableScroll = document.createElement('div');
+  tableScroll.className = 'table-scroll'
+  const btn = document.querySelector('.replay')
+  const table = document.createElement('table');
+  const header = table.createTHead()
+  const heading = `<thead><tr><th><span class='text'>Name</span></th><th><span class='text'>Score</span></th></tr></thead>`;
+  header.innerHTML = heading;
+  const body = table.createTBody();
+  let data = '';
+  for (let key in stats) {
+    const nick = stats[key].nick;
+    const score = stats[key].score;
+    data += `<tr><td>${nick}</td><td>${score}</td></tr>` 
+  }
+  body.innerHTML = data;
+  table.appendChild(body);
+  tableScroll.appendChild(table);
+  tableWrapper.appendChild(tableScroll)
+  document.querySelector('.modal').insertBefore(tableWrapper, btn)
 }
 },{}]},{},[1]);

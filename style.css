@@ -59,12 +59,47 @@ html {
 }
 
 .modal-container .modal h2 {
-  padding-top: 2rem;
   font-size: 2rem;
 }
 
+.modal-container .modal .name {
+  padding: .5rem 1rem;
+  border: 2px solid #eee;
+  border-radius: 5px;
+  outline: none;
+}
+
+.modal-container .modal .name:focus {
+  border-color: #c7c2c2;
+}
+
+.modal-container .modal .input-warning {
+  border-color: red;
+}
+
+.modal-container .modal .input-warning::-webkit-input-placeholder {
+  color: red;
+}
+
+.modal-container .modal .input-warning::-moz-placeholder {
+  color: red;
+}
+
+.modal-container .modal .input-warning:-ms-input-placeholder {
+  color: red;
+}
+
+.modal-container .modal .input-warning::-ms-input-placeholder {
+  color: red;
+}
+
+.modal-container .modal .input-warning::placeholder {
+  color: red;
+}
+
 .modal-container .modal .btn {
-  margin-top: 1rem;
+  display: inline-block;
+  outline: none;
   border: none;
   cursor: pointer;
   padding: 0.5rem 1rem;
@@ -74,6 +109,43 @@ html {
   background: #e7f0f5;
   -webkit-box-shadow: inset 5px 5px 5px #92979a,inset -5px -5px 5px #ffffff;
           box-shadow: inset 5px 5px 5px #92979a,inset -5px -5px 5px #ffffff;
+}
+
+.modal-container .modal .table-wrapper {
+  position: relative;
+  width: 90%;
+  height: 70%;
+}
+
+.modal-container .modal .table-scroll {
+  height: 100%;
+  overflow: auto;
+  margin-top: 25px;
+}
+
+.modal-container .modal .table-wrapper table {
+  width: 100%;
+  text-align: center;
+}
+
+.modal-container .modal table td {
+  width: 50%;
+}
+
+.modal-container .modal th:nth-of-type(1) {
+  position: absolute;
+  top: 0;
+  z-index: 2;
+  left: 0;
+  width: 50%;
+}
+
+.modal-container .modal th:nth-of-type(2) {
+  position: absolute;
+  top: 0;
+  z-index: 2;
+  left: 50%;
+  width: 50%;
 }
 
 .show.modal-container {
@@ -212,14 +284,19 @@ html {
     transition: transform 0.4s ease-in-out;
     transition: transform 0.4s ease-in-out, -webkit-transform 0.4s ease-in-out;
     width: 80%;
-    height: 200px;
+    height: 300px;
     -webkit-transform: translate(-50%, -150%);
         -ms-transform: translate(-50%, -150%);
             transform: translate(-50%, -150%);
   }
+  .modal-container .modal .table-wrapper {
+    position: relative;
+    width: 90%;
+    height: 50%;
+  }
 }
 
-@media screen and (max-width: 310px) {
+@media screen and (max-width: 320px) {
   .game .game__board {
     width: 250px;
     height: 250px;
@@ -232,10 +309,15 @@ html {
     transition: transform 0.4s ease-in-out;
     transition: transform 0.4s ease-in-out, -webkit-transform 0.4s ease-in-out;
     width: 80%;
-    height: 150px;
+    height: 300px;
     -webkit-transform: translate(-50%, -150%);
         -ms-transform: translate(-50%, -150%);
             transform: translate(-50%, -150%);
+  }
+  .modal-container .modal .table-wrapper {
+    position: relative;
+    width: 90%;
+    height: 50%;
   }
 }
 /*# sourceMappingURL=style.css.map */
