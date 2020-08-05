@@ -145,6 +145,7 @@ async function postScore(name) {
 
 async function getScores() {
   try {
+    showStatsOnly.disabled = true;
     const req = await fetch(
       `https://memory-game-c467d.firebaseio.com/players.json`
     )
@@ -217,11 +218,14 @@ function showStats(stats) {
   header.innerHTML = heading;
   const body = table.createTBody();
   let data = '';
+  let sortable = [];
   for (let key in stats) {
-    const nick = stats[key].nick;
-    const score = stats[key].score;
-    data += `<tr><td>${nick}</td><td>${score}</td></tr>` 
+    sortable.push([stats[key].nick, stats[key].score])
+    sortable.sort((a, b) => a[1] - b[1]);
   }
+  sortable.forEach(element => {
+    data += `<tr><td>${element[0]}</td><td>${element[1]}</td></tr>`
+  })
   body.innerHTML = data;
   table.appendChild(body);
   tableScroll.appendChild(table);

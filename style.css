@@ -60,17 +60,68 @@ html {
 
 .modal-container .modal h2 {
   font-size: 2rem;
+  color: #31393c;
+  font-weight: 600;
 }
 
 .modal-container .modal .name {
-  padding: .5rem 1rem;
+  width: 180px;
+  padding: 0.9rem 1rem;
   border: 2px solid #eee;
+  color: #31393c;
   border-radius: 5px;
+  font-weight: bold;
+  letter-spacing: 0.1rem;
+  font-size: 1.4rem;
   outline: none;
 }
 
 .modal-container .modal .name:focus {
   border-color: #c7c2c2;
+}
+
+.modal-container .modal .name::-webkit-input-placeholder {
+  color: #31393c;
+  font-size: 1.4rem;
+  font-weight: bold;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+}
+
+.modal-container .modal .name::-moz-placeholder {
+  color: #31393c;
+  font-size: 1.4rem;
+  font-weight: bold;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+}
+
+.modal-container .modal .name:-ms-input-placeholder {
+  color: #31393c;
+  font-size: 1.4rem;
+  font-weight: bold;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+}
+
+.modal-container .modal .name::-ms-input-placeholder {
+  color: #31393c;
+  font-size: 1.4rem;
+  font-weight: bold;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+}
+
+.modal-container .modal .name::placeholder {
+  color: #31393c;
+  font-size: 1.4rem;
+  font-weight: bold;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+}
+
+.modal-container .modal .move-count {
+  text-transform: uppercase;
 }
 
 .modal-container .modal .input-warning {
@@ -79,36 +130,49 @@ html {
 
 .modal-container .modal .input-warning::-webkit-input-placeholder {
   color: red;
+  letter-spacing: 0.1rem;
 }
 
 .modal-container .modal .input-warning::-moz-placeholder {
   color: red;
+  letter-spacing: 0.1rem;
 }
 
 .modal-container .modal .input-warning:-ms-input-placeholder {
   color: red;
+  letter-spacing: 0.1rem;
 }
 
 .modal-container .modal .input-warning::-ms-input-placeholder {
   color: red;
+  letter-spacing: 0.1rem;
 }
 
 .modal-container .modal .input-warning::placeholder {
   color: red;
+  letter-spacing: 0.1rem;
 }
 
 .modal-container .modal .btn {
-  display: inline-block;
+  width: 180px;
   outline: none;
   border: none;
   cursor: pointer;
-  padding: 0.5rem 1rem;
+  padding: 0.9rem 1rem;
+  color: #31393c;
   font-size: 2rem;
   font-weight: 600;
-  border-radius: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  border-radius: 8px;
   background: #e7f0f5;
-  -webkit-box-shadow: inset 5px 5px 5px #92979a,inset -5px -5px 5px #ffffff;
-          box-shadow: inset 5px 5px 5px #92979a,inset -5px -5px 5px #ffffff;
+  -webkit-box-shadow: 13px 13px 12px #dbe4e9, -13px -13px 12px #f3fcff;
+          box-shadow: 13px 13px 12px #dbe4e9, -13px -13px 12px #f3fcff;
+}
+
+.modal-container .modal .btn:hover {
+  -webkit-box-shadow: inset 13px 13px 12px #dbe4e9,inset  -13px -13px 12px #f3fcff;
+          box-shadow: inset 13px 13px 12px #dbe4e9,inset  -13px -13px 12px #f3fcff;
 }
 
 .modal-container .modal .table-wrapper {
@@ -130,6 +194,9 @@ html {
 
 .modal-container .modal table td {
   width: 50%;
+  font-weight: 600;
+  letter-spacing: 0.1rem;
+  padding: 0.5rem 0;
 }
 
 .modal-container .modal th:nth-of-type(1) {
@@ -146,6 +213,10 @@ html {
   z-index: 2;
   left: 50%;
   width: 50%;
+}
+
+.modal-container .modal th {
+  border-bottom: 2px solid black;
 }
 
 .show.modal-container {
@@ -284,7 +355,8 @@ html {
     transition: transform 0.4s ease-in-out;
     transition: transform 0.4s ease-in-out, -webkit-transform 0.4s ease-in-out;
     width: 80%;
-    height: 300px;
+    max-width: 350px;
+    height: 320px;
     -webkit-transform: translate(-50%, -150%);
         -ms-transform: translate(-50%, -150%);
             transform: translate(-50%, -150%);
@@ -309,7 +381,7 @@ html {
     transition: transform 0.4s ease-in-out;
     transition: transform 0.4s ease-in-out, -webkit-transform 0.4s ease-in-out;
     width: 80%;
-    height: 300px;
+    height: 320px;
     -webkit-transform: translate(-50%, -150%);
         -ms-transform: translate(-50%, -150%);
             transform: translate(-50%, -150%);
