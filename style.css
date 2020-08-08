@@ -269,6 +269,7 @@ html {
   -webkit-perspective: 1000px;
           perspective: 1000px;
   outline: none;
+  height: 150px;
 }
 
 .game .tile.matched {
@@ -348,6 +349,9 @@ html {
     height: 300px;
     grid-template-rows: repeat(4, 75px);
   }
+  .game .game__board .tile {
+    height: 75px;
+  }
   .modal-container .modal {
     -webkit-transition: -webkit-transform 0.4s ease-in-out;
     transition: -webkit-transform 0.4s ease-in-out;
@@ -373,6 +377,9 @@ html {
     width: 250px;
     height: 250px;
     grid-template-rows: repeat(4, 62.5px);
+  }
+  .game .game__board .tile {
+    height: 62.5px;
   }
   .modal-container .modal {
     -webkit-transition: -webkit-transform 0.4s ease-in-out;

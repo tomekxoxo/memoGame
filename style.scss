@@ -163,6 +163,7 @@ html {
     position: relative;
     perspective: 1000px;
     outline: none;
+    height: 150px;
     &.matched {
       border-radius: 8px;
       background: #75ffac;
@@ -221,6 +222,9 @@ html {
       width: 300px;
       height: 300px;
       grid-template-rows: repeat(4, 75px);
+      .tile{
+        height: 75px;
+      }
     }
   }
   .modal-container {
@@ -245,6 +249,9 @@ html {
       width: 250px;
       height: 250px;
       grid-template-rows: repeat(4, 62.5px);
+      .tile{
+        height: 62.5px;
+      }
     }
   }
   .modal-container {
