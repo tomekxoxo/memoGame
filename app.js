@@ -15,7 +15,8 @@ const memos = {
   7: "fish_yellow",
   8: "owl",
 };
-window.addEventListener("load", populateBoard);
+
+window.onload = populateBoard;
 
 const addStats = document.querySelector(".stats");
 
@@ -30,35 +31,32 @@ board.addEventListener("click", rotate);
 
 function rotate(e) {
   if (clickCount < 2) {
+    let img, id = null;
     if (e.target.classList.contains("tile__front")) {
-      const img = e.target.nextElementSibling.firstElementChild.src;
-      const id = e.target.parentElement.parentElement.id;
-      const tile = document.getElementById(id);
-      tile.firstElementChild.classList.add("rotate");
-      clickCount++;
-      compareImg.push(img);
-      compareId.push(id);
-      if (clickCount == 2) {
-        checkCount(compareId, compareImg);
-      }
+        img = e.target.nextElementSibling.firstElementChild.src;
+        id = e.target.parentElement.parentElement.id;
+    
     }
-    if (e.target.classList.contains("tile__inner")) {
-      const img =
-        e.target.firstElementChild.nextElementSibling.firstElementChild.src;
-      const id = e.target.parentElement.id;
+    else if (e.target.classList.contains("tile__inner")) {
+        img =e.target.firstElementChild.nextElementSibling.firstElementChild.src;
+        id = e.target.parentElement.id;
+      
+    }
+    if (img && id != null) {
       const tile = document.getElementById(id);
       tile.firstElementChild.classList.add("rotate");
       clickCount++;
       compareImg.push(img);
       compareId.push(id);
-      if (clickCount == 2) {
-        checkCount(compareId, compareImg);
-      }
+    }
+    
+    if (clickCount == 2) {
+      checkTiles(compareId, compareImg);
     }
   }
 }
 
-function shuffle(a) {
+function shuffleBoard(a) {
   for (let i = a.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [a[i], a[j]] = [a[j], a[i]];
@@ -66,34 +64,45 @@ function shuffle(a) {
   return a;
 }
 
-function checkCount(ids, imgs) {
+function saveMatchedImages(ids) {
+  correctImages.push(parseInt(ids[0]), parseInt(ids[1]));
+  document.querySelectorAll(".tile").forEach((tile) => {
+    correctImages.forEach((element) => {
+      if (element == parseInt(tile.id)) {
+        tile.classList.add("matched");
+      }
+    });
+  });
+}
+
+function coverAllTiles() {
+  document.querySelectorAll(".tile").forEach((tile) => {
+    tile.firstElementChild.className = "tile__inner";
+  });
+}
+
+function coverMismatchedTiles() {
+  document.querySelectorAll(".tile").forEach((tile) => {
+    if (correctImages.find((e) => e == tile.id)) {
+      document.getElementById(tile.id).firstElementChild.className =
+        "tile__inner rotate";
+    } else {
+      document.getElementById(tile.id).firstElementChild.className =
+        "tile__inner";
+    }
+  });
+}
+
+function checkTiles(ids, imgs) {
   moveCount++;
   setTimeout(() => {
     if (imgs[0] == imgs[1]) {
-      correctImages.push(parseInt(ids[0]), parseInt(ids[1]));
-      document.querySelectorAll(".tile").forEach((tile) => {
-        correctImages.forEach((element) => {
-          if (element == parseInt(tile.id)) {
-            tile.classList.add("matched");
-            // return;
-          }
-        });
-      });
+      saveMatchedImages(ids);
     } else {
-      if (correctImages.length <= 0) {
-        document.querySelectorAll(".tile").forEach((tile) => {
-          tile.firstElementChild.className = "tile__inner";
-        });
+      if (correctImages.length == 0) {
+        coverAllTiles();
       } else {
-        document.querySelectorAll(".tile").forEach((tile) => {
-          if (correctImages.find((e) => e == tile.id)) {
-            document.getElementById(tile.id).firstElementChild.className =
-              "tile__inner rotate";
-          } else {
-            document.getElementById(tile.id).firstElementChild.className =
-              "tile__inner";
-          }
-        });
+        coverMismatchedTiles();
       }
     }
     clickCount = 0;
@@ -106,7 +115,7 @@ function checkCount(ids, imgs) {
 }
 
 function populateBoard() {
-  shuffle(table);
+  shuffleBoard(table);
   document.querySelectorAll(".tile__back").forEach((tile, index) => {
     const img = document.createElement("img");
     const link = memos[table[index]];
@@ -116,9 +125,14 @@ function populateBoard() {
   });
 }
 
+function clearBoard() {
+  document.querySelectorAll(".tile__back").forEach(tile => {
+    tile.innerHTML = '';
+  })
+}
+
 function getLocalStorage() {
-  const name = localStorage.getItem("name");
-  return name;
+  return localStorage.getItem("name");
 }
 function addToLocalStorage(input) {
   localStorage.setItem("name", input);
@@ -134,9 +148,9 @@ async function postScore(name) {
         body: JSON.stringify({ nick: name, score: moveCount }),
       }
     )
-      .then(response => response.json())
-      .then(data => data);
-    return await  getScores();
+      .then((response) => response.json())
+      .then((data) => data);
+    return await getScores();
   } catch (err) {
     console.log(err);
   }
@@ -148,10 +162,10 @@ async function getScores() {
     const req = await fetch(
       `https://memory-game-c467d.firebaseio.com/players.json`
     )
-      .then(response => response.json())
-      .then(data => data);
+      .then((response) => response.json())
+      .then((data) => data);
     const res = await req;
-    showStats(res)
+    showStats(res);
     addStats.disabled = true;
     addStats.style.display = "none";
     showStatsOnly.style.display = "none";
@@ -186,48 +200,64 @@ function showModal() {
   document.querySelector(".modal-container").classList.add("show");
   const modal = document.querySelector(".modal");
   if (getLocalStorage() == null) {
-    const input = document.createElement("input");
-    input.className = "name";
-    input.type = "text";
-    input.placeholder = "Your name";
-    modal.insertBefore(input, addStats);
+    if (!document.querySelector('.name')) {
+      const input = document.createElement("input");
+      input.className = "name";
+      input.type = "text";
+      input.placeholder = "Your name";
+      modal.insertBefore(input, addStats);
+    }
   } else if (getLocalStorage() != null) {
     playerNick = getLocalStorage();
   }
-  document.querySelector(".replay").addEventListener("click", () => {
-    location.reload();
-  });
+  document.querySelector(".replay").addEventListener("click", playAgain);
 }
 
 function showStats(stats) {
-  document.querySelector('.message').style.display = 'none';
-  document.querySelector('.stats').style.display = 'none';
-  document.querySelector('.move-count').style.display = 'none';
-  if (document.querySelector('.name')) {
-    document.querySelector('.name').style.display = 'none';
+  document.querySelector(".message").style.display = "none";
+  document.querySelector(".stats").style.display = "none";
+  document.querySelector(".move-count").style.display = "none";
+  if (document.querySelector(".name")) {
+    document.querySelector(".name").style.display = "none";
   }
-  const tableWrapper = document.createElement('div');
-  tableWrapper.className = 'table-wrapper'
-  const tableScroll = document.createElement('div');
-  tableScroll.className = 'table-scroll'
-  const btn = document.querySelector('.replay')
-  const table = document.createElement('table');
-  const header = table.createTHead()
+  const tableWrapper = document.createElement("div");
+  tableWrapper.className = "table-wrapper";
+  const tableScroll = document.createElement("div");
+  tableScroll.className = "table-scroll";
+  const btn = document.querySelector(".replay");
+  const table = document.createElement("table");
+  const header = table.createTHead();
   const heading = `<thead><tr><th><span class='text'>Name</span></th><th><span class='text'>Score</span></th></tr></thead>`;
   header.innerHTML = heading;
   const body = table.createTBody();
-  let data = '';
+  let data = "";
   let sortable = [];
   for (let key in stats) {
-    sortable.push([stats[key].nick, stats[key].score])
+    sortable.push([stats[key].nick, stats[key].score]);
     sortable.sort((a, b) => a[1] - b[1]);
   }
-  sortable.forEach(element => {
-    data += `<tr><td>${element[0]}</td><td>${element[1]}</td></tr>`
-  })
+  sortable.forEach((element) => {
+    data += `<tr><td>${element[0]}</td><td>${element[1]}</td></tr>`;
+  });
   body.innerHTML = data;
   table.appendChild(body);
   tableScroll.appendChild(table);
-  tableWrapper.appendChild(tableScroll)
-  document.querySelector('.modal').insertBefore(tableWrapper, btn)
+  tableWrapper.appendChild(tableScroll);
+  document.querySelector(".modal").insertBefore(tableWrapper, btn);
+}
+
+function playAgain() {
+  coverAllTiles();
+  document.querySelector(".modal-container").classList.remove("show");
+  moveCount = 0;
+  correctImages = [];
+  playerNick = null;
+  document.querySelectorAll(".tile").forEach((tile) => { 
+        tile.classList.remove("matched");   
+  });
+  clearBoard();
+  setTimeout(() => {
+    populateBoard();
+  },500)
+  
 }
