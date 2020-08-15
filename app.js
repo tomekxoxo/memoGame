@@ -200,17 +200,19 @@ function showModal() {
   document.querySelector(".modal-container").classList.add("show");
   const modal = document.querySelector(".modal");
   if (getLocalStorage() == null) {
-    if (!document.querySelector('.name')) {
       const input = document.createElement("input");
       input.className = "name";
       input.type = "text";
       input.placeholder = "Your name";
       modal.insertBefore(input, addStats);
-    }
+    
   } else if (getLocalStorage() != null) {
     playerNick = getLocalStorage();
   }
-  document.querySelector(".replay").addEventListener("click", playAgain);
+  
+  document.querySelector(".replay").addEventListener("click", () => {
+    location.reload();
+  });
 }
 
 function showStats(stats) {
@@ -246,18 +248,3 @@ function showStats(stats) {
   document.querySelector(".modal").insertBefore(tableWrapper, btn);
 }
 
-function playAgain() {
-  coverAllTiles();
-  document.querySelector(".modal-container").classList.remove("show");
-  moveCount = 0;
-  correctImages = [];
-  playerNick = null;
-  document.querySelectorAll(".tile").forEach((tile) => { 
-        tile.classList.remove("matched");   
-  });
-  clearBoard();
-  setTimeout(() => {
-    populateBoard();
-  },500)
-  
-}
