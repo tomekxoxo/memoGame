@@ -9,6 +9,15 @@ $bg-modal: #e7f0f5;
   padding: 0;
   box-sizing: inherit;
 }
+::selection {
+  color: none;
+  background: none;
+}
+/* For Mozilla Firefox */
+::-moz-selection {
+  color: none;
+  background: none;
+}
 html {
   font-size: 10px;
   box-sizing: border-box;
