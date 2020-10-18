@@ -25,7 +25,7 @@ Game is very well known, it was created for learning purpose.
 
 ## Setup
 Simply download files and open in live server.
-If you want develop please use `npm install` and use scripts saved in package.json.
+If you want to develope please use `npm install` and use scripts saved in package.json.
 
 ## Features
 * player can save score in database stored by Firebase and compare with other players
