@@ -17,7 +17,7 @@
   "devDependencies": {
     "autoprefixer": "^9.8.5",
     "browserify": "^16.5.1",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.0",
     "postcss": "^7.0.32",
     "postcss-cli": "^7.1.1"
   }
